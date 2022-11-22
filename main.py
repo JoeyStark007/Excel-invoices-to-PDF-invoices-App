@@ -37,15 +37,44 @@ for filepath in filepaths:
     pdf.cell(w=30, h=8, txt=str(columns[3]), border=1)
     pdf.cell(w=30, h=8, txt=str(columns[4]), border=1, ln=1)
 
-    #Add rows
+    # Add rows
     for index, row in df.iterrows():
         pdf.set_font(family="Times", size=10)
-        pdf.set_text_color(100,100,100)
+        pdf.set_text_color(100, 100, 100)
         pdf.cell(w=30, h=8, txt=str(row["product_id"]), border=1)
         pdf.cell(w=70, h=8, txt=str(row["product_name"]), border=1)
         pdf.cell(w=30, h=8, txt=str(row["amount_purchased"]), border=1)
         pdf.cell(w=30, h=8, txt=str(row["price_per_unit"]), border=1)
         pdf.cell(w=30, h=8, txt=str(row["total_price"]), border=1, ln=1)
 
+    # Add Total Columns
+    total_sum = df["total_price"].sum()
+
+    pdf.set_font(family="Times", size=10, style="BIU")
+    pdf.set_text_color(100, 100, 100)
+    pdf.cell(w=30, h=8, txt="", border=1)
+    pdf.cell(w=70, h=8, txt="", border=1)
+    pdf.cell(w=30, h=8, txt="", border=1)
+    pdf.cell(w=30, h=8, txt="", border=1)
+    pdf.cell(w=30, h=8, txt=str(total_sum), border=1, ln=2)
+
+    # Add Text stating the total price
+    pdf.ln(2)
+    pdf.set_font(family="Times", size=20, style="B")
+    pdf.cell(w=30, h=20, txt="Summary Statement", ln=1)
+    pdf.set_font(family="Times", size=10, style="B")
+    pdf.cell(w=100, h=8, txt=f"The Total Price is {total_sum}", ln=1)
+
+    pdf.ln(80)
+    # Add company name
+    pdf.image("Visionary.png", w=40)
+    pdf.set_font(family="Times", size=23, style="BI")
+    pdf.cell(w=100, h=8, txt="Visionary Technology inc.", ln =1)
+
+    # Add company address
+    pdf.set_font(family="Times", size=15, style="BI")
+    pdf.cell(w=80, h=8, txt="007 N.E Dream St.", ln=1)
+    pdf.cell(w=80, h=8, txt="Lorton, VA , 22079", ln=1)
+    pdf.cell(w=80, h=8, txt="suite. 007", ln=1)
 
     pdf.output(f"pdf's/{filename}.pdf")
